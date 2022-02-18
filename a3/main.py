@@ -13,8 +13,6 @@ if __name__=="__main__":
     files = ['pos.txt', 'neg.txt']
 
     sentences = PathLineSentences(path)
-    print(type(sentences))
-    print(sentences)
     model = gensim.models.Word2Vec(sentences=sentences)
     model.save("word2vec.model")
-    print(path)
+    print("Model is saved!")
