@@ -11,8 +11,26 @@ import sys
 
 if __name__=="__main__":
     if len(sys.argv) != 3:
-        print("Please run the script in the correct format. For ex: python a4/inference.py a4/test.txt ")
+        print("Please run the script in the correct format. For ex: python a4/inference.py a4/test.txt relu")
         exit()
 
     path = sys.argv[1]
     classifier = sys.argv[2]
+
+    filename = 'nn_'+ classifier+'.model'
+    model =keras.models.load_model(filename)
+
+    model.predict(X_test[:5])
+
+    to_be_predicted = []
+    with open(path, 'rb') as f:
+        to_be_predicted.append(f.read().decode("utf-8").splitlines())
+
+    word_seq = [text_to_word_sequence(sent) for sent in to_be_predicted]
+    X_predict = tokenizer.texts_to_sequences([' '.join(seq[:MAX_SENT_LEN]) for seq in word_seq])
+    X_predict = pad_sequences(X_predict, maxlen=MAX_SENT_LEN, padding='post', truncating='post')
+
+    print(X_predict)
+
+
+
